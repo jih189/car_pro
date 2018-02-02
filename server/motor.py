@@ -90,6 +90,13 @@ def forward():
 	motor0(forward0)
 	motor1(forward1)
 
+def rightforward():
+	motor0(forward0)
+
+def leftforward():
+	motor1(forward1)
+
+
 def backward():
 	motor0(backward0)
 	motor1(backward1)
