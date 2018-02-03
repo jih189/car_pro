@@ -1,11 +1,14 @@
+#!/usr/bin/evn python
 import RPi.GPIO as GPIO
+import PCA9685 as p
 import time
-GPIO.setmode(GPIO.BOARD)
 
 TRIG = 16 
 ECHO = 18 
 
 def setup():
+	GPIO.setwarnings(False)
+	GPIO.setmode(GPIO.BOARD)
 	print "distance measurement in progress"
 
 	GPIO.setup(TRIG, GPIO.OUT)
@@ -33,5 +36,5 @@ def checkdis():
 
 	return distance
 
-def cleanup()
+def cleanup():
 	GPIO.cleanup()

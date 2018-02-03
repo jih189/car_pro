@@ -43,6 +43,7 @@ def setup(busnum=None):
 	forward0 = 'True'
 	forward1 = 'True'
 	GPIO.setwarnings(False)
+	print "set pin board"
 	GPIO.setmode(GPIO.BOARD)        # Number GPIOs by its physical location
 	try:
 		for line in open("config"):

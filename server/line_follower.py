@@ -59,11 +59,13 @@ while(True):
 
     contours,hierarchy = cv2.findContours(thresh.copy(), 1, cv2.CHAIN_APPROX_NONE)
 
- 
+    # detect whether there is thing 
+    dis = distance_detect.checkdis()
+    print "distance: ", dis
 
     # Find the biggest contour (if detected)
 
-    if len(contours) > 0:
+    if len(contours) > 0 and dis >=15:
 
         c = max(contours, key=cv2.contourArea)
 
@@ -86,8 +88,8 @@ while(True):
 
         if cx >= 120:
 
-            print "Turn Right ", cx
-            car_dir.turn_right()
+            print "Turn Left! ", cx
+            car_dir.turn_left()
             motor.forward()
  
 
@@ -100,15 +102,20 @@ while(True):
 
         if cx <= 50:
 
-            print "Turn Left! ", cx
-            car_dir.turn_left()
+            print "Turn Right ", cx
+            car_dir.turn_right()
             motor.forward()
 
     else:
 
-        print "I don't see the line"
-        car_dir.home()
-        motor.backward()
+        if dis < 15:
+            print "something blocking me"
+            car_dir.home()
+            motor.stop()
+        else:
+            print "I don't see the line"
+            car_dir.home()
+            motor.backward()
  
 
     #Display the resulting frame
@@ -116,6 +123,6 @@ while(True):
     cv2.imshow('frame',crop_img)
 
     if cv2.waitKey(1) & 0xFF == ord('q'):
-	distance_detect.cleanup()
         motor.stop()
+	distance_detect.cleanup()
         break
