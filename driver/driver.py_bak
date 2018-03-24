@@ -13,7 +13,7 @@ def drive( stops ):
     motor.setup(busnum=busnum)
     distance_detect.setup()
     car_dir.home()
-    motor.setSpeed(30)
+    motor.setSpeed(25)
 
     video_capture = cv2.VideoCapture(-1)
     video_capture.set(3, 160)

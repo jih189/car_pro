@@ -35,5 +35,5 @@ def dropoff():
         pass
     
     print "Customer has picked up order!! Heading back home..."
-    time.sleep( 3 )
+    time.sleep( 1.5 )
         

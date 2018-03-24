@@ -13,7 +13,7 @@ def drive( stops ):
     motor.setup(busnum=busnum)
     distance_detect.setup()
     car_dir.home()
-    motor.setSpeed(30)
+    motor.setSpeed(23)
 
     video_capture = cv2.VideoCapture(-1)
     video_capture.set(3, 160)
@@ -42,29 +42,15 @@ def drive( stops ):
         cv2.namedWindow( 'Gray color select', cv2.WINDOW_NORMAL )
         cv2.imshow('Gray color select',clonedImg)
 
-        # calculate circles within image
-        circles = cv2.HoughCircles( clonedImg, cv2.cv.CV_HOUGH_GRADIENT, 1, 20, param1=50, param2=30, minRadius=15, maxRadius=100 )
-
-        # if a circle was detected
-        if circles != None:
-            # if this is first time encountering this stop increase stop count
-            if stopFound == 0:
-                stopCount += 1
-                stopFound = 1
-            
-            # map out circles for display
-            circles = np.uint16( np.around( circles ))
-
-            for i in circles[0, :]:
-                cv2.circle( clonedImg, (i[0],i[1]), i[2], (0,255, 0), 2)
-                cv2.circle( clonedImg, (i[0],i[1]), 2, (0,255, 0), 3)
-        elif (cv2.countNonZero( clonedImg ) == 0):
+        # set whenever a red area has been recognized and passed a stop
+        if cv2.countNonZero( clonedImg ) and stopFound == 0:
+            stopFound = 1
+        elif cv2.countNonZero( clonedImg ) == 0 and stopFound == 1:
             stopFound = 0
-
-        # display camera feed and circles
-        cv2.namedWindow( 'Circles', cv2.WINDOW_NORMAL )
-        cv2.imshow( 'Circles', clonedImg)
-
+            stopCount += 1
+        else:
+            pass
+            
         # crop the image
         crop_img = frame[60:120, 0:160]
 
